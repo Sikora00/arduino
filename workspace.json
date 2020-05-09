@@ -1,8 +1,66 @@
 {
   "version": 1,
-  "projects": {},
+  "projects": {
+    "nigh-lights": {
+      "root": "apps/nigh-lights",
+      "sourceRoot": "apps/nigh-lights/src",
+      "projectType": "application",
+      "prefix": "nigh-lights",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/nigh-lights",
+            "main": "apps/nigh-lights/src/main.ts",
+            "tsConfig": "apps/nigh-lights/tsconfig.app.json",
+            "assets": ["apps/nigh-lights/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/nigh-lights/src/environments/environment.ts",
+                  "with": "apps/nigh-lights/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "nigh-lights:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "config": "apps/nigh-lights/.eslintrc",
+            "tsConfig": [
+              "apps/nigh-lights/tsconfig.app.json",
+              "apps/nigh-lights/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/nigh-lights/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/nigh-lights/jest.config.js",
+            "tsConfig": "apps/nigh-lights/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    }
+  },
   "cli": {
-    "defaultCollection": "@nrwl/workspace"
+    "defaultCollection": "@nrwl/node"
   },
   "schematics": {
     "@nrwl/workspace": {
@@ -59,5 +117,6 @@
         "linter": "eslint"
       }
     }
-  }
+  },
+  "defaultProject": "nigh-lights"
 }
